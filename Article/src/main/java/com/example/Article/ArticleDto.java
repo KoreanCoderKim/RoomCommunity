@@ -19,17 +19,7 @@ public class ArticleDto {
         this.News = News;
     }
 
-    @Override
-    public String toString() {
-        return "ArticleDto{" +
-                "id=" + id +
-
-                ", title='" + title + '\'' +
-                ", News='" + News + '\'' +
-                '}';
-    }
-
-    public Article toEntity() {
-        return new Article(null, ArticleController.MyId, title, News);
+    public Article toEntity(String Data) {
+        return new Article(null, Data, title, News);
     }
 }

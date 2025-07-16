@@ -1,14 +1,43 @@
 <html lang="en">
+<style>
+    body {
+        background-color: black;
+        width: auto;
+        height: auto;
+        color: greenyellow;
+    }
+    footer {
+        background-color: black;
+        width: auto;
+        height: auto;
+        color: greenyellow;
+    }
+    header {
+        background-color: black;
+        width: auto;
+        height: auto;
+        color: greenyellow;
+    }
+    a {
+        color: greenyellow
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>다동게시판</title>
 </head>
+<header>
+    <p>방이름 | 제목 | 내용</p>
+</header>
 <body>
-    <p>방이름, 제목, 내용</p>
-    {{#Data}}
-        <li>{{.}}</li>
-    {{/Data}}
-    <a href="http://localhost:8080/new">Return</a>
+{{#Data}}
+    <li>{{.}}</li>
+{{/Data}}
 </body>
+<footer>
+    <br><a href="http://localhost:8080/new?RoomId={{Id}}">더 작성하기</a><br>
+    <a href="http://localhost:8080/Search?RoomId={{Id}}">검색하기 </a><br>
+    <a href="http://localhost:8080/In">다른방으로 가기</a><br>
+</footer>
 </html>
