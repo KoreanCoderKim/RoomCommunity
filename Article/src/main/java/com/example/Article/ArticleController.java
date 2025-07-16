@@ -31,15 +31,6 @@ public class ArticleController {
     @GetMapping("/new")
     public String Write(Pos pos, @RequestParam String RoomId, Model model) {
         model.addAttribute("Id",RoomId);
-        boolean check = false;
-        for (Pos pos1 : posRepository.findAll()) {
-            if (pos1.getRoomId().equals(RoomId)) {
-                check = true;
-            }
-        }
-        if (!check) {
-            posRepository.save(new Pos(pos.getId(),RoomId));
-        }
         return "Wrote";
     }
     @Autowired
