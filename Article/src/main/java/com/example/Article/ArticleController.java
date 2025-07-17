@@ -28,16 +28,16 @@ public class ArticleController {
         return "redirect:/index?RoomId="+form.getRoomId();
     }
     @GetMapping("/index")
-    public String App(Pos pos, Model model, @RequestParam String RoomId) {
+    public String App(Model model, @RequestParam String RoomId) {
         model.addAttribute("Id", RoomId);
-        if (!posRepository.existsByRoomId(RoomId)) {
-           posRepository.save(new Pos(pos.getId(), RoomId));
-        }
         return "index";
     }
     @GetMapping("/new")
     public String Write(Pos pos, @RequestParam String RoomId, Model model) {
         model.addAttribute("Id",RoomId);
+        if (!posRepository.existsByRoomId(RoomId)) {
+           posRepository.save(new Pos(pos.getId(), RoomId));
+        }
         return "Wrote";
     }
     @PostMapping("/RoomCommunity")
