@@ -15,6 +15,10 @@ import java.util.List;
 
 @Controller
 public class ArticleController {
+    @Autowired
+    private ArticleRepository articleRepository;
+    @Autowired
+    private PosRepository posRepository;
     @GetMapping("/In")
     public String RoomIn() {
         return "main";
@@ -24,8 +28,17 @@ public class ArticleController {
         return "redirect:/index?RoomId="+form.getRoomId();
     }
     @GetMapping("/index")
-    public String App(Model model, @RequestParam String RoomId) {
+    public String App(Pos pos, Model model, @RequestParam String RoomId) {
         model.addAttribute("Id", RoomId);
+        boolean check = false;
+        for (Pos pos1 : posRepository.findAll()) {
+            if (pos1.getRoomId().equals(RoomId)) {
+                check = true;
+            }
+        }
+        if (!check) {
+            posRepository.save(new Pos(pos.getId(),RoomId));
+        }
         return "index";
     }
     @GetMapping("/new")
@@ -33,10 +46,6 @@ public class ArticleController {
         model.addAttribute("Id",RoomId);
         return "Wrote";
     }
-    @Autowired
-    private ArticleRepository articleRepository;
-    @Autowired
-    private PosRepository posRepository;
     @PostMapping("/RoomCommunity")
     @Transactional
     public String OpenRoom(Pos pos,Model model, ArticleDto form) {
