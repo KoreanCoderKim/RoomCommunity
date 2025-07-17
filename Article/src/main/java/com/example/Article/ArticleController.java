@@ -33,14 +33,8 @@ public class ArticleController {
         return "index";
     }
     @GetMapping("/new")
-    @Transactional
     public String Write(Pos pos, @RequestParam String RoomId, Model model) {
         model.addAttribute("Id",RoomId);
-        Pageable pageable = PageRequest.of(0, 1);
-        List<Pos> results = posRepository.findTopWithLock(pageable); // 락으로 동시 접근 제어
-        if (!posRepository.existsByRoomId(RoomId)) {
-            posRepository.save(new Pos(pos.getId(), RoomId));
-        }
         return "Wrote";
     }
     @PostMapping("/RoomCommunity")
@@ -48,6 +42,9 @@ public class ArticleController {
     public String OpenRoom(Pos pos,Model model, ArticleDto form) {
         Pageable pageable = PageRequest.of(0, 1);
         List<Pos> results = posRepository.findTopWithLock(pageable);
+        if (!posRepository.existsByRoomId(RoomId)) {
+            posRepository.save(new Pos(pos.getId(), RoomId));
+        }
         Pos lastPos = results.isEmpty() ? null : results.get(0);
         Article article = form.toEntity(lastPos.getRoomId());
         articleRepository.save(article);
