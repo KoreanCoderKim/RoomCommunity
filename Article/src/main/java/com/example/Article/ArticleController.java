@@ -39,17 +39,29 @@ public class ArticleController {
     }
     @PostMapping("/RoomCommunity")
     @Transactional
-    public String OpenRoom(@RequestParam String roomId, Pos pos,Model model, ArticleDto form) {
+    public String OpenRoom(@RequestParam String roomId, Model model, ArticleDto form) {
+        // 최신 Pos 하나 락 걸고 가져오기
         Pageable pageable = PageRequest.of(0, 1);
         List<Pos> results = posRepository.findTopWithLock(pageable);
-        if (!posRepository.existsByRoomId(RoomId)) {
-            posRepository.save(new Pos(pos.getId(), RoomId));
+
+        // 만약 해당 roomId가 아직 없으면 저장 (중복 방지)
+        if (!posRepository.existsByRoomId(roomId)) {
+            posRepository.save(new Pos(null, roomId));  // pos.getId() 대신 null (보통 ID는 자동 생성)
         }
-        List<Pos> results = posRepository.findTopWithLock(pageable);
+
+        // 다시 최신 Pos 가져오기
+        results = posRepository.findTopWithLock(pageable);
         Pos lastPos = results.isEmpty() ? null : results.get(0);
+
+        if (lastPos == null) {
+            return "redirect:/In";  // 안전 처리
+        }
+
+        // 게시글 저장
         Article article = form.toEntity(lastPos.getRoomId());
         articleRepository.save(article);
-        model.addAttribute("Id",form.toEntity(lastPos.getRoomId()).getRoomId());// 데이터베이스에 저장
+
+        model.addAttribute("Id", lastPos.getRoomId());
         return "index";
     }
     // 방 검색
