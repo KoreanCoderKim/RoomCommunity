@@ -19,13 +19,27 @@ public class ArticleController {
     private ArticleRepository articleRepository;
     @Autowired
     private PosRepository posRepository;
+    @GetMapping("/Made")
+    public String Make() {
+        return "name";
+    }
+    @PostMapping("/home")
+    public String made(PosDto form) {
+        if (!posRepository.existsByRoomId(form.getRoomId())) {
+            posRepository.save(new Pos(null, form.getRoomId()));  // pos.getId() 대신 null (보통 ID는 자동 생성)
+        }
+        return "redirect:/index?RoomId="+form.getRoomId();
+    }
     @GetMapping("/In")
     public String RoomIn() {
         return "main";
     }
     @PostMapping("/Process")
     public String GO(PosDto form) {
-        return "redirect:/index?RoomId="+form.getRoomId();
+        if (posRepository.existsByRoomId(form.getRoomId())) {
+            return "redirect:/index?RoomId="+form.getRoomId();
+        }
+        return "redirect:/In";
     }
     @GetMapping("/index")
     public String App(Model model, @RequestParam String RoomId) {
@@ -39,10 +53,6 @@ public class ArticleController {
     }
     @PostMapping("/RoomCommunity")
     public String OpenRoom(@RequestParam String roomId, Model model, ArticleDto form) {
-        // 만약 해당 roomId가 아직 없으면 저장 (중복 방지)
-        if (!posRepository.existsByRoomId(roomId)) {
-            posRepository.save(new Pos(null, roomId));  // pos.getId() 대신 null (보통 ID는 자동 생성)
-        }
         // 게시글 저장
         Article article = form.toEntity(roomId);
         articleRepository.save(article);
