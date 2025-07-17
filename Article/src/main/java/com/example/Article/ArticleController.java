@@ -45,6 +45,7 @@ public class ArticleController {
         if (!posRepository.existsByRoomId(RoomId)) {
             posRepository.save(new Pos(pos.getId(), RoomId));
         }
+        List<Pos> results = posRepository.findTopWithLock(pageable);
         Pos lastPos = results.isEmpty() ? null : results.get(0);
         Article article = form.toEntity(lastPos.getRoomId());
         articleRepository.save(article);
