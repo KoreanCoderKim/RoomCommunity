@@ -60,16 +60,13 @@ public class ArticleController {
     // 방 검색
     @GetMapping("/Search")
     public String Open(@RequestParam String RoomId, Model model) {
-        ArrayList<String> li = new ArrayList<>(List.of());
-        for (Article object : articleRepository.findAll()) {
-            String obj = object.getRoomId();
-
-            if (obj.equals(RoomId)) {
-                li.add(object.getRoomId() + " | " + object.getTitle() + " | " + object.getNews());
-            }
-        }
-        model.addAttribute("Data", li);
-        model.addAttribute("Id",RoomId);
-        return "Show";
+       List<Article> results = articleRepository.findByRoomId(RoomId);
+       List<String> li = new ArrayList<>();
+       for (Article article : results) {
+          li.add(article.getRoomId() + " | " + article.getTitle() + " | " + article.getNews());
+       }
+       model.addAttribute("Data", li);
+       model.addAttribute("Id", RoomId);
+       return "Show";
     }
 }
