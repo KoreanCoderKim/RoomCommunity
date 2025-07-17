@@ -39,8 +39,6 @@ public class ArticleController {
     }
     @PostMapping("/RoomCommunity")
     public String OpenRoom(@RequestParam String roomId, Model model, ArticleDto form) {
-        // 최신 Pos 하나 락 걸고 가져오기
-
         // 만약 해당 roomId가 아직 없으면 저장 (중복 방지)
         if (!posRepository.existsByRoomId(roomId)) {
             posRepository.save(new Pos(null, roomId));  // pos.getId() 대신 null (보통 ID는 자동 생성)
