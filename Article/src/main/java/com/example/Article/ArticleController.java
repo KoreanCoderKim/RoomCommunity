@@ -21,7 +21,7 @@ public class ArticleController {
     private PosRepository posRepository;
     @GetMapping("/Made")
     public String Make() {
-        return "name";
+        return "main";
     }
     @PostMapping("/home")
     public String made(PosDto form) {
