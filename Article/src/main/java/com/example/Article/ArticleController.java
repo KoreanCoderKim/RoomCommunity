@@ -41,24 +41,13 @@ public class ArticleController {
     @Transactional
     public String OpenRoom(@RequestParam String roomId, Model model, ArticleDto form) {
         // 최신 Pos 하나 락 걸고 가져오기
-        Pageable pageable = PageRequest.of(0, 1);
-        List<Pos> results = posRepository.findTopWithLock(pageable);
 
         // 만약 해당 roomId가 아직 없으면 저장 (중복 방지)
         if (!posRepository.existsByRoomId(roomId)) {
             posRepository.save(new Pos(null, roomId));  // pos.getId() 대신 null (보통 ID는 자동 생성)
         }
-
-        // 다시 최신 Pos 가져오기
-        results = posRepository.findTopWithLock(pageable);
-        Pos lastPos = results.isEmpty() ? null : results.get(0);
-
-        if (lastPos == null) {
-            return "redirect:/In";  // 안전 처리
-        }
-
         // 게시글 저장
-        Article article = form.toEntity(lastPos.getRoomId());
+        Article article = form.toEntity(roomId);
         articleRepository.save(article);
 
         model.addAttribute("Id", lastPos.getRoomId());
