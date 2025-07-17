@@ -12,6 +12,6 @@ import java.util.List;
 public interface PosRepository extends JpaRepository<Pos, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT p FROM Pos p ORDER BY p.id DESC")
-    List<Pos> findLastPosWithLock();
+    List<Pos> findTopWithLock();
     boolean existsByRoomId(String roomId);
 }
