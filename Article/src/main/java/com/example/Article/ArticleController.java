@@ -39,7 +39,7 @@ public class ArticleController {
     }
     @PostMapping("/RoomCommunity")
     @Transactional
-    public String OpenRoom(Pos pos,Model model, ArticleDto form) {
+    public String OpenRoom(@RequestParam String roomId, Pos pos,Model model, ArticleDto form) {
         Pageable pageable = PageRequest.of(0, 1);
         List<Pos> results = posRepository.findTopWithLock(pageable);
         if (!posRepository.existsByRoomId(RoomId)) {
