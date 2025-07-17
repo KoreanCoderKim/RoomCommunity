@@ -27,12 +27,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>다동게시판</title>
 </head>
-<form class="container" action="/RoomCommunity" method="post">
-    <label class="form-label">title</label>
-    <textarea class="form-control" rows="3" name="title"></textarea>
-    <label class="form-label">News</label>
-    <textarea class="form-control" rows="3" name="News"></textarea>
-    <button type="submit" class="btn btn-primary">Submit</button>
+<form method="post" action="/RoomCommunity">
+    <input type="hidden" name="roomId" value="${Id}">  <!-- 이게 핵심 -->
+    <input type="text" name="title">
+    <input type="text" name="news">
+    <button type="submit">작성</button>
 </form>
 <footer>
     <a href="http://localhost:8080/Search?RoomId={{Id}}">검색하기 </a><br>
