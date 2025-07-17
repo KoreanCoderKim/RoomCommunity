@@ -30,14 +30,8 @@ public class ArticleController {
     @GetMapping("/index")
     public String App(Pos pos, Model model, @RequestParam String RoomId) {
         model.addAttribute("Id", RoomId);
-        boolean check = false;
-        for (Pos pos1 : posRepository.findAll()) {
-            if (pos1.getRoomId().equals(RoomId)) {
-                check = true;
-            }
-        }
-        if (!check) {
-            posRepository.save(new Pos(pos.getId(),RoomId));
+        if (!posRepository.existsByRoomId(RoomId)) {
+           posRepository.save(new Pos(pos.getId(), RoomId));
         }
         return "index";
     }
