@@ -9,9 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface PosRepository extends JpaRepository<Pos, Long> {
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT p FROM Pos p ORDER BY p.id DESC")
-    List<Pos> findTopWithLock(Pageable pageable);
+public interface PosRepository extends CrudRepository<Pos, Long> {
     boolean existsByRoomId(String roomId);
 }
