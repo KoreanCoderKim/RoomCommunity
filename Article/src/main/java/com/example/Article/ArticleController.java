@@ -38,7 +38,6 @@ public class ArticleController {
         return "Wrote";
     }
     @PostMapping("/RoomCommunity")
-    @Transactional
     public String OpenRoom(@RequestParam String roomId, Model model, ArticleDto form) {
         // 최신 Pos 하나 락 걸고 가져오기
 
