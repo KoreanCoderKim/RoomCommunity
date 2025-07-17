@@ -47,7 +47,7 @@ public class ArticleController {
         Article article = form.toEntity(roomId);
         articleRepository.save(article);
 
-        model.addAttribute("Id", lastPos.getRoomId());
+        model.addAttribute("Id", roomId);
         return "index";
     }
     // 방 검색
