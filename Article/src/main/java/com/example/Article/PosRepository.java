@@ -13,4 +13,5 @@ public interface PosRepository extends JpaRepository<Pos, Long> {
     @Lock(LockModeType.PESSIMISTIC_READ)
     @Query("SELECT p FROM Pos p ORDER BY p.id DESC")
     List<Pos> findTopWithLock(Pageable pageable);
+    boolean existsByRoomId(String roomId);
 }
