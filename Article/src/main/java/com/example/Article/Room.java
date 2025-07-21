@@ -6,25 +6,27 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 @Getter
 @NoArgsConstructor
 @Entity
-public class Pos {
+public class Room {
     @Id
     @GeneratedValue
-    private String RoomId;
+    private Long id;
     @Column
-    private Long item;
+    private String roomId;
 
-    public Pos(String RoomId, Long item) {
-        this.RoomId = RoomId;
-        this.item = item;
+    public Room(Long id, String roomId) {
+        this.id = id;
+        this.roomId = roomId;
     }
 
     @Override
     public String toString() {
-        return "Pos{" +
-                ", RoomId='" + RoomId + '\'' +
+        return "Room{" +
+                "id=" + id +
+                ", roomId='" + roomId + '\'' +
                 '}';
     }
 }

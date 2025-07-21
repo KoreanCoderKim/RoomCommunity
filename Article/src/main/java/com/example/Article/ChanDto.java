@@ -1,13 +1,12 @@
 package com.example.Article;
 
-import com.example.Article.ArticleController;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Getter;
 
-import java.util.List;
-
-public class ArticleDto {
+@Getter
+public class ChanDto {
     @Id
     @GeneratedValue
     private Long id;
@@ -18,12 +17,10 @@ public class ArticleDto {
     @Column
     private String News;
 
-    public ArticleDto(String userId, String password, String title, String News) {
+    public ChanDto(String roomId, String title, String News) {
+        this.roomId = roomId;
         this.title = title;
         this.News = News;
     }
 
-    public Article toEntity(String Data, String usId, String password) {
-        return new Article(null, usId, password, Data, title, News);
-    }
 }

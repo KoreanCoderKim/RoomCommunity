@@ -9,15 +9,15 @@ import lombok.Getter;
 public class PosDto {
     @Id
     @GeneratedValue
-    private Long id;
-    @Column
     private String RoomId;
+    @Column
+    private Long item;
 
     public PosDto(String RoomId) {
         this.RoomId = RoomId;
     }
 
     public Pos toEntity() {
-        return new Pos(null, RoomId);
+        return new Pos(RoomId, null);
     }
 }
